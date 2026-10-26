@@ -34,8 +34,8 @@ function buildCJS() {
   aes += '\nmodule.exports = { sha256, sha384, sha512, aes128CbcEncrypt, aes256CbcDecrypt, aes256CbcDecryptNoPad, aes256EcbDecryptBlock, importAES256DecryptKey, aes256CbcDecryptWithKey, computeHash2B, concat };\n';
 
   let main = pdfDecrypt
-    .replace(/import\s*\{[^}]+\}\s*from\s*'pdf-lib';/,
-      "const { PDFDocument, PDFName, PDFHexString, PDFString, PDFDict, PDFArray, PDFRawStream, PDFNumber, PDFRef } = require('pdf-lib');")
+    .replace(/import\s*\{([^}]+)\}\s*from\s*'pdf-lib';/,
+      (_, names) => `const {${names}} = require('pdf-lib');`)
     .replace(/import\s*\{[^}]+\}\s*from\s*'\.\/crypto-rc4\.js';/,
       "const { md5, RC4, hexToBytes, bytesToHex } = require('./crypto-rc4.js');")
     .replace(/import\s*\{[^}]+\}\s*from\s*'\.\/crypto-aes\.js';/,
@@ -92,7 +92,7 @@ export declare function isEncrypted(
   pdfBytes: Uint8Array
 ): Promise<{
   encrypted: boolean;
-  algorithm?: 'AES-256' | 'RC4';
+  algorithm?: 'AES-256' | 'AES-128' | 'RC4';
   version?: number;
   revision?: number;
   keyLength?: number;

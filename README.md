@@ -1,6 +1,20 @@
 # @pdfsmaller/pdf-decrypt
 
-Full-featured PDF decryption with **AES-256** and **RC4** support. Built for browsers, Node.js 18+, Cloudflare Workers, and Deno.
+Full-featured PDF decryption with **AES-256**, **AES-128** and **RC4** support. Built for browsers, Node.js 18+, Cloudflare Workers, and Deno.
+
+> **This is a fork** of [smither777/pdf-decrypt](https://github.com/smither777/pdf-decrypt) (version 1.0.1),
+> made for [Volti](https://github.com/goodgriefgnome/volti). It adds:
+>
+> - **AES-128 and RC4 by crypt filters** (V=4, R=4), which Acrobat 7 and later write, including for
+>   PDFs that only restrict printing or copying
+> - **AES-256 R=5** (Acrobat 9's, deprecated by PDF 2.0)
+> - **Object streams:** objects kept in object streams (as most PDFs since PDF 1.5 have) are read once
+>   their stream is decrypted; before, those PDFs failed to decrypt
+> - **Unencrypted metadata** (EncryptMetadata false) is left as it is
+> - Tests against PDFs encrypted by qpdf, one for each kind (`test/fixtures`)
+>
+> It builds when installed from git (`npm install github:goodgriefgnome/pdf-decrypt`), by its
+> `prepare` script.
 
 Companion to [@pdfsmaller/pdf-encrypt](https://www.npmjs.com/package/@pdfsmaller/pdf-encrypt). Powers [PDFSmaller.com](https://pdfsmaller.com)'s [Unlock PDF](https://pdfsmaller.com/unlock-pdf) tool.
 
@@ -125,9 +139,11 @@ const decrypted = await decryptPDF(encrypted, 'secret');
 | Algorithm | PDF Version | Key Length | Status |
 |-----------|-------------|-----------|--------|
 | AES-256 (V=5, R=6) | 2.0 (ISO 32000-2) | 256-bit | Supported |
+| AES-256 (V=5, R=5) | 1.7, Adobe extension level 3 | 256-bit | Supported |
+| AES-128 (V=4, R=4) | 1.6+ | 128-bit | Supported |
+| RC4 by crypt filters (V=4, R=4) | 1.5+ | 128-bit | Supported |
 | RC4 (V=2, R=3) | 1.4+ (ISO 32000-1) | 128-bit | Supported |
 | RC4 (V=1, R=2) | 1.1+ | 40-bit | Supported |
-| AES-128 (V=4, R=4) | 1.6+ | 128-bit | Not yet supported |
 
 ## Comparison with pdf-decrypt-lite
 

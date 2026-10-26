@@ -1,7 +1,7 @@
 {
   "name": "@pdfsmaller/pdf-decrypt",
-  "version": "1.0.1",
-  "description": "Full-featured PDF decryption with AES-256 and RC4 support. Companion to @pdfsmaller/pdf-encrypt. Powers PDFSmaller.com's PDF unlock tool.",
+  "version": "1.1.0",
+  "description": "Full-featured PDF decryption with AES-256, AES-128 and RC4 support, and object streams. A fork of @pdfsmaller/pdf-decrypt, the companion to @pdfsmaller/pdf-encrypt that powers PDFSmaller.com's PDF unlock tool.",
   "type": "commonjs",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -20,7 +20,8 @@
   ],
   "scripts": {
     "build": "node build.js",
-    "test": "node test.js",
+    "test": "node test/fixtures.js && node test.js",
+    "prepare": "node build.js",
     "prepublishOnly": "npm run build"
   },
   "keywords": [
@@ -47,10 +48,10 @@
   "homepage": "https://pdfsmaller.com",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/smither777/pdf-decrypt.git"
+    "url": "git+https://github.com/goodgriefgnome/pdf-decrypt.git"
   },
   "bugs": {
-    "url": "https://github.com/smither777/pdf-decrypt/issues"
+    "url": "https://github.com/goodgriefgnome/pdf-decrypt/issues"
   },
   "license": "MIT",
   "engines": {
